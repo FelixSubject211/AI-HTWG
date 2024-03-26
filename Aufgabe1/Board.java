@@ -95,8 +95,10 @@ public class Board {
 	 */
 	public int h1() {
 		int falseItemCount = 0;
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < N; j++) {
+		for (int i = 0; i < N+1; i++) {
+			if (board[i] == 0) continue;
+			for (int j = 0; j < N+1; j++) {
+				if (board[j] == 0) continue;
 				if (board[i] < board[j] && i > j) {
 					falseItemCount++;
 				}

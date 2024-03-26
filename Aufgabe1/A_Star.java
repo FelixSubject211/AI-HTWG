@@ -59,6 +59,7 @@ public class A_Star {
 			current = pred.get(current);
 		}
 		Collections.reverse(all);
+		all.remove(0);
 		return new LinkedList<>(all);
 	}
 }
