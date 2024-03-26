@@ -1,8 +1,8 @@
 package puzzle8.Aufgabe1;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.LinkedList;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Klasse Board für 8-Puzzle-Problem
@@ -26,6 +26,23 @@ public class Board {
 	 * Generiert ein zufälliges Board.
 	 */
 	public Board() {
+		while (true) {
+			List<Integer> numberList = new ArrayList<>(IntStream.range(0, N + 1)
+                    .boxed()
+                    .toList());
+			Collections.shuffle(numberList);
+
+			int[] intArray = numberList.stream()
+					.mapToInt(Integer::intValue)
+					.toArray();
+
+			Board newBoard = new Board(intArray);
+
+			if (newBoard.parity()) {
+				this.board = intArray;
+				return;
+			}
+		}
 	}
 	
 	/**
@@ -33,7 +50,7 @@ public class Board {
 	 * @param board Feld gefüllt mit einer Permutation von 0,1,2, ..., 8.
 	 */
 	public Board(int[] board) {
-		
+		this.board = board;
 	}
 
 	@Override
@@ -69,7 +86,7 @@ public class Board {
 	 * @return Parität.
 	 */
 	public boolean parity() {
-		return true;
+		return h1() % 2 == 0;
 	}
 	
 	/**
@@ -77,7 +94,15 @@ public class Board {
 	 * @return Heuristikwert.
 	 */
 	public int h1() {
-		return 0; 
+		int falseItemCount = 0;
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++) {
+				if (board[i] < board[j] && i > j) {
+					falseItemCount++;
+				}
+			}
+		}
+		return falseItemCount;
 	}
 	
 	/**
@@ -85,7 +110,21 @@ public class Board {
 	 * @return Heuristikwert.
 	 */
 	public int h2() {
-		return 0;
+		int distance = 0;
+		for (int i = 0; i < N + 1; i++) {
+			if (board[i] != 0) {
+				distance += manhattanDistance(i, board[i]);
+			}
+		}
+		return distance;
+	}
+
+	private int manhattanDistance(int currentPos, int targetPos) {
+		int currentRow = currentPos / 3;
+		int currentCol = currentPos % 3;
+		int targetRow = targetPos / 3;
+		int targetCol = targetPos % 3;
+		return Math.abs(currentRow - targetRow) + Math.abs(currentCol - targetCol);
 	}
 	
 	/**
@@ -94,16 +133,61 @@ public class Board {
 	 */
 	public List<Board> possibleActions() {
 		List<Board> boardList = new LinkedList<>();
-		// ...
+		int zeroIndex = findZeroIndex();
+
+		List<Integer> possibleMoves = getPossibleMoves(zeroIndex);
+
+		for (int move : possibleMoves) {
+			boardList.add(createNewBoard(zeroIndex, move));
+		}
+
 		return boardList;
 	}
-	
-	
+
+	private int findZeroIndex() {
+		return IntStream.range(0, board.length)
+				.filter(index -> board[index] == 0)
+				.findFirst()
+				.orElse(-1);
+	}
+
+	private List<Integer> getPossibleMoves(int zeroIndex) {
+		List<List<Integer>> moves = Arrays.asList(
+				Arrays.asList(1, 3),
+				Arrays.asList(0, 2, 4),
+				Arrays.asList(1, 5),
+				Arrays.asList(0, 4, 6),
+				Arrays.asList(1, 3, 5, 7),
+				Arrays.asList(2, 4, 8),
+				Arrays.asList(3, 7),
+				Arrays.asList(4, 6, 8),
+				Arrays.asList(5, 7)
+		);
+		return moves.get(zeroIndex);
+	}
+
+	private Board createNewBoard(int zeroIndex, int moveIndex) {
+		int[] newBoard = Arrays.copyOf(board, board.length);
+		swapElements(newBoard, zeroIndex, moveIndex);
+		return new Board(newBoard);
+	}
+
+	private static void swapElements(int[] array, int index1, int index2) {
+		int temp = array[index1];
+		array[index1] = array[index2];
+		array[index2] = temp;
+	}
+
 	/**
 	 * Prüft, ob das Board ein Zielzustand ist.
 	 * @return true, falls Board Ziestzustand (d.h. 0,1,2,3,4,5,6,7,8)
 	 */
 	public boolean isSolved() {
+		for (int i = 0; i < N; i++) {
+			if (board[i] != i) {
+				return false;
+			}
+		}
 		return true;
 	}
 	
