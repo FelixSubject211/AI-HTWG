@@ -23,7 +23,7 @@ public class A_Star {
 			return new LinkedList<>();
 
 		openList.add(startBoard, startBoard.h2());
-		cost.put(startBoard, startBoard.h2());
+		cost.put(startBoard, 0);
 		Set<Board> closedList = new HashSet<>();
 
 		while (!openList.isEmpty()) {
@@ -34,15 +34,13 @@ public class A_Star {
 			closedList.add(n);
 			for(Board board : n.possibleActions()) {
 				if(!closedList.contains(board) && openList.get(board) == null) {
-					cost.put(board, cost.get(n) + board.h2());
+					cost.put(board, cost.get(n) + 1);
 					pred.put(board, n);
-					openList.add(board, cost.get(board));
+					openList.add(board, cost.get(board) + board.h2());
 				} else if (openList.get(board) != null) {
-					if (cost.get(n) + board.h2() < cost.get(board)) {
-						System.out.println(openList.get(board));
-						cost.put(board, cost.get(n) + board.h2());
-						openList.change(board, cost.get(board));
-						System.out.println(openList.get(board));
+					if (cost.get(n) + 1 < cost.get(board)) {
+						cost.put(board, cost.get(n) + 1);
+						openList.change(board, cost.get(board) + board.h2());
 					}
 				}
 			}
