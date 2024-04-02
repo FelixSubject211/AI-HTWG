@@ -1,5 +1,8 @@
 package aufgaben.Aufgabe2;
 
+import java.util.Comparator;
+import java.util.List;
+
 public class Minimax {
 
     public static KalahBoard maxAction(KalahBoard board) {
@@ -21,7 +24,11 @@ public class Minimax {
     static int maxValue(KalahBoard board, int alpha, int beta) {
         if (board.isFinished()) return board.h1();
         int v = Integer.MIN_VALUE;
-        for (KalahBoard child: board.possibleActions()) {
+
+        List<KalahBoard> sortedActions = board.possibleActions();
+        sortedActions.sort((a, b) -> Integer.compare(b.h1(), a.h1()));
+
+        for (KalahBoard child : sortedActions) {
             v = Math.max(v, minValue(child, alpha, beta));
             if (v >= beta) return v;
             alpha = Math.max(alpha, v);
@@ -32,7 +39,11 @@ public class Minimax {
     static int minValue(KalahBoard board, int alpha, int beta) {
         if (board.isFinished()) return board.h1();
         int v = Integer.MAX_VALUE;
-        for (KalahBoard child: board.possibleActions()) {
+
+        List<KalahBoard> sortedActions = board.possibleActions();
+        sortedActions.sort((a, b) -> Integer.compare(b.h1(), a.h1()));
+
+        for (KalahBoard child: sortedActions) {
             v = Math.min(v, maxValue(child, alpha, beta));
             if (v <= beta) return v;
             beta = Math.min(beta, v);
