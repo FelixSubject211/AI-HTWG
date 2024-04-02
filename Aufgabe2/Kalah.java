@@ -30,6 +30,9 @@ public class Kalah {
         while (!kalahBd.isFinished()) {
             int action;
             if (kalahBd.getCurPlayer() == 'A') {
+                System.out.println("MinMax");
+                Minimax.maxAction(kalahBd).print();
+                System.out.println("Done");
                 // Berechnen Sie für A eine Aktion mit Ihrem Verfahren und geben Sie die Aktion auf der Konsole aus.
                 // ...
             }
