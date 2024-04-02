@@ -415,4 +415,12 @@ public class KalahBoard {
                 return false;
         }
     }
+
+    public int h1() {
+        return switch (curPlayer) {
+            case APlayer -> board[AKalah];
+            case BPlayer -> board[BKalah];
+            default -> 0;
+        };
+    }
 }
