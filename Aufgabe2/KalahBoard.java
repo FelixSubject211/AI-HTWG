@@ -420,10 +420,10 @@ public class KalahBoard {
         switch (curPlayer) {
             case APlayer:
                 int tokensPlayerA = Arrays.stream(Arrays.copyOfRange(board, 0, 6)).sum();
-                return board[AKalah] + (isBonus ? 5 : 0) + tokensPlayerA;
+                return board[AKalah] + (isBonus() ? 5 : 0) + tokensPlayerA;
             case BPlayer:
                 int tokensPlayerB = Arrays.stream(Arrays.copyOfRange(board, 7, 13)).sum();
-                return board[BKalah] + (isBonus ? 5 : 0) + tokensPlayerB;
+                return board[BKalah] + (isBonus() ? 5 : 0) + tokensPlayerB;
             default:
                 return 0;
         }
