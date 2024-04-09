@@ -417,15 +417,16 @@ public class KalahBoard {
     }
 
     public int h1() {
-        switch (curPlayer) {
-            case APlayer:
-                int tokensPlayerA = Arrays.stream(Arrays.copyOfRange(board, 0, 6)).sum();
-                return board[AKalah] + (isBonus() ? 5 : 0) + tokensPlayerA;
-            case BPlayer:
-                int tokensPlayerB = Arrays.stream(Arrays.copyOfRange(board, 7, 13)).sum();
-                return board[BKalah] + (isBonus() ? 5 : 0) + tokensPlayerB;
-            default:
-                return 0;
-        }
+        return this.getAKalah() - this.getBKalah();
+//        switch (curPlayer) {
+//            case APlayer:
+//                int tokensPlayerA = Arrays.stream(Arrays.copyOfRange(board, 0, 6)).sum();
+//                return board[AKalah]*20 + (isBonus() ? 5 : 0) + tokensPlayerA;
+//            case BPlayer:
+//                int tokensPlayerB = Arrays.stream(Arrays.copyOfRange(board, 7, 13)).sum();
+//                return board[BKalah]*20 + (isBonus() ? 5 : 0) + tokensPlayerB;
+//            default:
+//                return 0;
+//        }
     }
 }

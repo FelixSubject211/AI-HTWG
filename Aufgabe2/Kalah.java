@@ -26,11 +26,13 @@ public class Kalah {
         // A ist am Zug und kann aufgrund von Bonuszügen 8-aml hintereinander ziehen!
         // A muss deutlich gewinnen!
         kalahBd.print();
-
         while (!kalahBd.isFinished()) {
             int action;
             if (kalahBd.getCurPlayer() == 'A') {
-                System.out.println("Best move: " + Minimax.maxAction(kalahBd));
+                // miniMax -> minMaxAlphaBetaCounter: 9434623
+                // miniMax + AlphaBeta -> minMaxAlphaBetaCounter: 172435
+                // miniMax + AlphaBeta + Sort -> minMaxAlphaBetaCounter: 95900
+                System.out.println("Best move: " + Minimax.maxAction(kalahBd) + " | minMaxAlphaBetaCounter: " + Minimax.minMaxAlphaBetaCounter);
             }
             action = kalahBd.readAction();
             kalahBd.move(action);
