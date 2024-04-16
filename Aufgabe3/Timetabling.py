@@ -1,4 +1,3 @@
-import sys
 from constraint import Problem, AllDifferentConstraint
 
 def solve():
