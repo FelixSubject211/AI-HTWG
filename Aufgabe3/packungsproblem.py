@@ -5,19 +5,29 @@ def packungsproblem(groesse_grosses_rechteck, kleine_rechtecke):
     problem = Problem()
 
     for i, (width, height) in enumerate(kleine_rechtecke):
-        #print(i)
+        print(i)
         positions = []
-        x_range = range(0, groesse_grosses_rechteck[0] - width + 1)
-        y_range = range(0, groesse_grosses_rechteck[1] - height + 1)
+        x_range = range(0, groesse_grosses_rechteck[0] - width)
+        y_range = range(0, groesse_grosses_rechteck[1] - height)
+        print("h:", x_range, y_range)
         if x_range.stop > 0 and y_range.stop > 0:
-            positions += [(x - 1, y - 1, "h", i, width, height) for x in x_range for y in y_range]
+            positions += [(x, y, "h", i, width, height) for x in x_range for y in y_range]
+        elif x_range.stop == 0 and y_range.stop > 0:
+            positions += [(0, y, "h", i, width, height) for y in y_range]
+        elif x_range.stop > 0 and y_range.stop == 0:
+            positions += [(x, 0, "h", i, width, height) for x in x_range]
 
-        x_range = range(0, groesse_grosses_rechteck[0] - height + 1)
-        y_range = range(0, groesse_grosses_rechteck[1] - width + 1)
+        x_range = range(0, groesse_grosses_rechteck[0] - height)
+        y_range = range(0, groesse_grosses_rechteck[1] - width)
+        print("v:", x_range, y_range)
         if x_range.stop > 0 and y_range.stop > 0:
-            positions += [(x - 1, y - 1, "v", i, width, height) for x in x_range for y in y_range]
+            positions += [(x, y, "v", i, width, height) for x in x_range for y in y_range]
+        elif x_range.stop == 0 and y_range.stop > 0:
+            positions += [(0, y, "v", i, width, height) for y in y_range]
+        elif x_range.stop > 0 and y_range.stop == 0:
+            positions += [(x, 0, "v", i, width, height) for x in x_range]
 
-        #print(positions)
+        print(positions)
         problem.addVariable(i, positions)
 
     for i1, klein1 in enumerate(kleine_rechtecke):
@@ -63,5 +73,6 @@ groesse_grosses_rechteck = (7, 8)
 kleine_rechtecke = [(6, 4), (8, 1), (4, 1), (5, 2), (2, 2), (3, 2)]
 
 solutions = packungsproblem(groesse_grosses_rechteck, kleine_rechtecke)
+print("Solutions:")
 for solution in solutions:
     print(solution)
