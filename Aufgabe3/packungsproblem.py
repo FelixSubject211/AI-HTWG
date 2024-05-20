@@ -5,11 +5,9 @@ def packungsproblem(groesse_grosses_rechteck, kleine_rechtecke):
     problem = Problem()
 
     for i, (width, height) in enumerate(kleine_rechtecke):
-        print(i)
         positions = []
-        x_range = range(0, groesse_grosses_rechteck[0] - width)
-        y_range = range(0, groesse_grosses_rechteck[1] - height)
-        print("h:", x_range, y_range)
+        x_range = range(0, groesse_grosses_rechteck[0] + 1 - width)
+        y_range = range(0, groesse_grosses_rechteck[1] + 1 - height)
         if x_range.stop > 0 and y_range.stop > 0:
             positions += [(x, y, "h", i, width, height) for x in x_range for y in y_range]
         elif x_range.stop == 0 and y_range.stop > 0:
@@ -17,9 +15,8 @@ def packungsproblem(groesse_grosses_rechteck, kleine_rechtecke):
         elif x_range.stop > 0 and y_range.stop == 0:
             positions += [(x, 0, "h", i, width, height) for x in x_range]
 
-        x_range = range(0, groesse_grosses_rechteck[0] - height)
-        y_range = range(0, groesse_grosses_rechteck[1] - width)
-        print("v:", x_range, y_range)
+        x_range = range(0, groesse_grosses_rechteck[0] + 1 - height)
+        y_range = range(0, groesse_grosses_rechteck[1] + 1 - width)
         if x_range.stop > 0 and y_range.stop > 0:
             positions += [(x, y, "v", i, width, height) for x in x_range for y in y_range]
         elif x_range.stop == 0 and y_range.stop > 0:
@@ -38,7 +35,7 @@ def packungsproblem(groesse_grosses_rechteck, kleine_rechtecke):
                     [i1, i2]
                 )
 
-    return [problem.getSolution()]
+    return problem.getSolutions()
 
 
 def overlab(k1, k2):
@@ -76,3 +73,4 @@ solutions = packungsproblem(groesse_grosses_rechteck, kleine_rechtecke)
 print("Solutions:")
 for solution in solutions:
     print(solution)
+print(len(solutions))

@@ -49,6 +49,7 @@ def main():
     solutions = solve()
     for solution in solutions:
         print(solution)
+    print(len(solutions))
 
 
 if __name__ == "__main__":
